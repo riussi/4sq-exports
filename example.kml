@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <Placemark>
+      <TimeStamp>
+        <when>2019-07-14T19:17:27+01:00</when>
+      </TimeStamp>
+      <name>640East</name>
+      <address>Railway Arches, 159-160 Malcolm Pl, London, E2 0EU, Greater London, United Kingdom</address>
+      <Point>
+        <coordinates>-0.054497,51.524525</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <TimeStamp>
+        <when>2019-07-14T19:17:06+01:00</when>
+      </TimeStamp>
+      <name>Taproom By Bethnal Green</name>
+      <address>Malcolm place, , E2 0EU, , United Kingdom</address>
+      <Point>
+        <coordinates>-0.053847022,51.5246</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <TimeStamp>
+        <when>2019-07-14T18:57:53+01:00</when>
+      </TimeStamp>
+      <name>Sainsbury&#39;s Local</name>
+      <address>291 Cambridge Heath Rd, London, E2 0EL, Greater London, United Kingdom</address>
+      <Point>
+        <coordinates>-0.0555501882207403,51.52714958295955</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <TimeStamp>
+        <when>2019-07-14T18:51:39+01:00</when>
+      </TimeStamp>
+      <name>Japanese Canteen</name>
+      <address>Arch 255, Paradise Row, London, E2 9LE, Greater London, United Kingdom</address>
+      <Point>
+        <coordinates>-0.055713224354754405,51.52887745284979</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <TimeStamp>
+        <when>2019-07-13T22:29:43+01:00</when>
+      </TimeStamp>
+      <name>Mechanic Brewery</name>
+      <address>22a Curdworth Street, Bethnal Green, E1 5QU, Greater London, United Kingdom</address>
+      <Point>
+        <coordinates>-0.056916475,51.523666</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <TimeStamp>
+        <when>2019-07-13T17:43:08+01:00</when>
+      </TimeStamp>
+      <name>Mother Kelly&#39;s Bottle Shop and Tap Room</name>
+      <address>251 Paradise Row, London, E2 9LE, Greater London, United Kingdom</address>
+      <Point>
+        <coordinates>-0.05584270159248104,51.52841340778298</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <TimeStamp>
+        <when>2019-07-13T16:25:55+01:00</when>
+      </TimeStamp>
+      <name>Old Street Brewery &amp; Taproom</name>
+      <address>Arch 11 Gales Gardens, London, E2 0EJ, Greater London, United Kingdom</address>
+      <Point>
+        <coordinates>-0.056425817912283925,51.52694979790773</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <TimeStamp>
+        <when>2019-07-13T15:29:58+01:00</when>
+      </TimeStamp>
+      <name>Taproom By Bethnal Green</name>
+      <address>Malcolm place, , E2 0EU, , United Kingdom</address>
+      <Point>
+        <coordinates>-0.053847022,51.5246</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <TimeStamp>
+        <when>2019-07-13T13:19:38+01:00</when>
+      </TimeStamp>
+      <name>McDonald&#39;s</name>
+      <address>432-436 Bethnal Green Rd., London, E2 0DJ, Greater London, United Kingdom</address>
+      <Point>
+        <coordinates>-0.05939867808155239,51.52699909916246</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <TimeStamp>
+        <when>2019-07-13T12:18:54+01:00</when>
+      </TimeStamp>
+      <name>The Arsenal Store</name>
+      <address>Unit 6/9, Station Pl, Finsbury Park, London, N4 2DH, Greater London, United Kingdom</address>
+      <Point>
+        <coordinates>-0.10552134181982151,51.5643060736164</coordinates>
+      </Point>
+    </Placemark>
+  </Document>
+</kml>

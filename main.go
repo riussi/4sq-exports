@@ -14,7 +14,9 @@
 
 package main
 
-import "github.com/riussi/4sq-exports/cmd"
+import (
+	"github.com/riussi/4sq-exports/cmd"
+)
 
 func main() {
 	cmd.Execute()

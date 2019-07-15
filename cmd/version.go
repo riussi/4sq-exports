@@ -16,13 +16,14 @@ package cmd
 
 import (
 	"fmt"
-
 	"github.com/spf13/cobra"
 )
 
 // These are injected at link time
 var (
-	version string
+	version  string
+	commit   string
+	compiled string
 )
 
 var versionCmd = &cobra.Command{
@@ -34,7 +35,8 @@ var versionCmd = &cobra.Command{
 }
 
 func printVersion() {
-	fmt.Printf("4sq-exports v%s\n\n", version)
+	fmt.Printf("4sq-exports %s\n\n", version)
+	fmt.Printf("https://github.com/riussi/4sq-exports @%s - compiled %s\n", commit, compiled)
 }
 
 func init() {

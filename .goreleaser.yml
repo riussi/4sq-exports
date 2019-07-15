@@ -1,0 +1,36 @@
+project_name: 4sq-exports
+before:
+  hooks:
+    - go mod download
+env:
+  - GO111MODULE=on
+builds:
+  - env:
+    - CGO_ENABLED=0
+    ldflags:
+      - "-s -w -X github.com/riussi/4sq-exports/cmd.commit={{.ShortCommit}} -X github.com/riussi/4sq-exports/cmd.compiled={{.Date}} -X github.com/riussi/4sq-exports/cmd.version={{.Version}}"
+    binary: 4sq-exports
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+archives:
+- name_template: '{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
+  replacements:
+    darwin: macOS
+    linux: linux
+    windows: windows
+    amd64: 64-bit
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ .Tag }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+    - '^example:'
+    - '^docs:'
+    - '^test:'
