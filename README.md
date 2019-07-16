@@ -1,6 +1,13 @@
 # 4sq-exports
 
+Simple CLI-tool to export your Foursquare checkins into a KML-file.
+
+
+
 ## Usage
+
+1. First you need to run the authorise command to get an access token by logging into your Foursquare account.
+2. Then you use the access token with the checkins command to get your checkins list from the API.
 
 ```bash
 $ 4sq-exports
