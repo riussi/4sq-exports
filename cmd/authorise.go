@@ -40,8 +40,8 @@ func init() {
 
 const (
 	callbackURI  = "http://localhost:12345/4sq"
-	clientID     = "ZYV105YQOQLKGR0MSSFBQK0EHZF5WJ5MLM4ETPBXCQZ1A5F4"
-	clientSecret = "43Z0AOAXU1KWEZ4MOHHYSVBM0K0P5A3PPVNPZB4K1GUO0M2Y"
+	clientID     = "old-ones-deleted"
+	clientSecret = "old-ones-deleted"
 )
 
 func startAuthoriseFlow() {
