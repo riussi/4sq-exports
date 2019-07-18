@@ -17,13 +17,14 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/spf13/cobra"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
 	"os/exec"
 	"runtime"
+
+	"github.com/spf13/cobra"
 )
 
 var authoriseCmd = &cobra.Command{
@@ -38,10 +39,14 @@ func init() {
 	RootCmd.AddCommand(authoriseCmd)
 }
 
+// clientID and clientSecret added at build-time from environment when linking
+var (
+	clientID     string
+	clientSecret string
+)
+
 const (
-	callbackURI  = "http://localhost:12345/4sq"
-	clientID     = "old-ones-deleted"
-	clientSecret = "old-ones-deleted"
+	callbackURI = "http://localhost:12345/4sq"
 )
 
 func startAuthoriseFlow() {
