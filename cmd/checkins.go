@@ -17,17 +17,18 @@ package cmd
 import (
 	"bufio"
 	"fmt"
-	"github.com/buger/jsonparser"
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
-	"github.com/twpayne/go-kml"
-	"io/ioutil"
+	"io"
 	"log"
 	"math"
 	"net/http"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/buger/jsonparser"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+	kml "github.com/twpayne/go-kml/v3"
 )
 
 var checkinsCmd = &cobra.Command{
@@ -77,7 +78,7 @@ func getAllCheckins(outputFile *bufio.Writer, accessToken string) {
 	check(err)
 
 	if resp.StatusCode >= 200 && resp.StatusCode <= 299 {
-		body, err := ioutil.ReadAll(resp.Body)
+		body, err := io.ReadAll(resp.Body)
 		check(err)
 
 		checkinsTotalCount, err := jsonparser.GetInt(body, "response", "checkins", "count")
@@ -100,7 +101,7 @@ func getAllCheckins(outputFile *bufio.Writer, accessToken string) {
 	}
 }
 
-func getCheckins(pageSize int, offset int, accessToken string, kDoc *kml.CompoundElement) {
+func getCheckins(pageSize int, offset int, accessToken string, kDoc *kml.DocumentElement) {
 	// First get the 250 latest checkins. API is paginated and max page size is 250.
 	checkinsURI := getPaginatedURI(pageSize, offset, accessToken)
 	//fmt.Println(checkinsURI)
@@ -108,7 +109,7 @@ func getCheckins(pageSize int, offset int, accessToken string, kDoc *kml.Compoun
 	resp, err := http.Get(checkinsURI)
 	check(err)
 	if resp.StatusCode >= 200 && resp.StatusCode <= 299 {
-		body, err := ioutil.ReadAll(resp.Body)
+		body, err := io.ReadAll(resp.Body)
 		check(err)
 
 		jsonparser.ArrayEach(body, func(value []byte, dataType jsonparser.ValueType, offset int, err error) {

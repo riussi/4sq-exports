@@ -17,7 +17,7 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"net/url"
@@ -118,17 +118,17 @@ func openInBrowser(url string) {
 
 func getAccessToken(uri string) (string, error) {
 	resp, err := http.Get(uri)
-	defer resp.Body.Close()
-
 	if err != nil {
 		return "error", err
 	}
-	body, err2 := ioutil.ReadAll(resp.Body)
-	if err2 != nil {
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
 		return "error", err
 	}
-	response, err3 := unmarshalResponse(body)
-	if err3 != nil {
+	response, err := unmarshalResponse(body)
+	if err != nil {
 		return "error", err
 	}
 
