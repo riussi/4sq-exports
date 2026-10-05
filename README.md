@@ -24,3 +24,15 @@ Getting check-ins 0 to 250 (page 0 of 100)
 ...
 Getting check-ins 24750 to 25000 (page 99 of 100)
 ```
+
+## Development
+
+Requires Go 1.27 or newer (the exact toolchain is pinned in `go.mod`).
+
+```bash
+make test   # go vet + go test
+make lint   # gofmt check, go vet, staticcheck
+make vuln   # govulncheck
+```
+
+staticcheck and govulncheck are pinned as `tool` dependencies in `go.mod` and run through `go tool`, so nothing needs to be installed separately.

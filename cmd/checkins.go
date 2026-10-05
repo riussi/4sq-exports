@@ -81,7 +81,7 @@ func getAllCheckins(outputFile *bufio.Writer, accessToken string) {
 		body, err := io.ReadAll(resp.Body)
 		check(err)
 
-		checkinsTotalCount, err := jsonparser.GetInt(body, "response", "checkins", "count")
+		checkinsTotalCount, _ := jsonparser.GetInt(body, "response", "checkins", "count")
 		pageCount := int(math.Floor(float64(checkinsTotalCount)/float64(pageSize)) + 1)
 		fmt.Printf("- Total number of check-ins: %d\n", checkinsTotalCount)
 		fmt.Printf("- %d pages of %d check-ins\n", pageCount, pageSize)
@@ -90,7 +90,7 @@ func getAllCheckins(outputFile *bufio.Writer, accessToken string) {
 		kDoc := kml.Document()
 		k := kml.KML(kDoc)
 
-		for i := 0; i < pageCount; i++ {
+		for i := range pageCount {
 			fmt.Printf("Getting check-ins %d to %d (page %d of %d)\n", i*pageSize, i*pageSize+pageSize, i, pageCount)
 			getCheckins(pageSize, i*pageSize, accessToken, kDoc)
 		}
@@ -112,36 +112,43 @@ func getCheckins(pageSize int, offset int, accessToken string, kDoc *kml.Documen
 		body, err := io.ReadAll(resp.Body)
 		check(err)
 
-		jsonparser.ArrayEach(body, func(value []byte, dataType jsonparser.ValueType, offset int, err error) {
-			check(err)
-			createdAtEpoch, err := jsonparser.GetInt(value, "createdAt")
-			createdAtTime := time.Unix(createdAtEpoch, 0)
-			checkinVenue, dataType, offset, err := jsonparser.Get(value, "venue")
-			venueName, err := jsonparser.GetString(checkinVenue, "name")
-			checkinVenueLocation, dataType, offset, err := jsonparser.Get(checkinVenue, "location")
-			venueAddress, err := jsonparser.GetString(checkinVenueLocation, "address")
-			venueCity, err := jsonparser.GetString(checkinVenueLocation, "city")
-			venuePostCode, err := jsonparser.GetString(checkinVenueLocation, "postalCode")
-			venueState, err := jsonparser.GetString(checkinVenueLocation, "state")
-			venueCountry, err := jsonparser.GetString(checkinVenueLocation, "country")
-
-			addressLines := []string{venueAddress, venueCity, venuePostCode, venueState, venueCountry}
-			address := strings.Join(addressLines, ", ")
-			venueLat, err := jsonparser.GetFloat(checkinVenueLocation, "lat")
-			venueLng, err := jsonparser.GetFloat(checkinVenueLocation, "lng")
-			kDoc.Add(kml.Placemark(
-				kml.TimeStamp(kml.When(createdAtTime)),
-				kml.Name(venueName),
-				kml.Address(address),
-				kml.Point(kml.Coordinates(kml.Coordinate{Lon: venueLng, Lat: venueLat})),
-			),
-			)
-		}, "response", "checkins", "items")
+		addCheckins(body, kDoc)
 
 		defer resp.Body.Close()
 	} else {
 		fmt.Printf("HTTP Status %d", resp.StatusCode)
 	}
+}
+
+// addCheckins parses a page of check-ins from the API response body and adds
+// each one to kDoc as a placemark.
+func addCheckins(body []byte, kDoc *kml.DocumentElement) {
+	// Missing fields are deliberately ignored and fall back to zero values.
+	jsonparser.ArrayEach(body, func(value []byte, _ jsonparser.ValueType, _ int, err error) {
+		check(err)
+		createdAtEpoch, _ := jsonparser.GetInt(value, "createdAt")
+		createdAtTime := time.Unix(createdAtEpoch, 0)
+		checkinVenue, _, _, _ := jsonparser.Get(value, "venue")
+		venueName, _ := jsonparser.GetString(checkinVenue, "name")
+		checkinVenueLocation, _, _, _ := jsonparser.Get(checkinVenue, "location")
+		venueAddress, _ := jsonparser.GetString(checkinVenueLocation, "address")
+		venueCity, _ := jsonparser.GetString(checkinVenueLocation, "city")
+		venuePostCode, _ := jsonparser.GetString(checkinVenueLocation, "postalCode")
+		venueState, _ := jsonparser.GetString(checkinVenueLocation, "state")
+		venueCountry, _ := jsonparser.GetString(checkinVenueLocation, "country")
+
+		addressLines := []string{venueAddress, venueCity, venuePostCode, venueState, venueCountry}
+		address := strings.Join(addressLines, ", ")
+		venueLat, _ := jsonparser.GetFloat(checkinVenueLocation, "lat")
+		venueLng, _ := jsonparser.GetFloat(checkinVenueLocation, "lng")
+		kDoc.Add(kml.Placemark(
+			kml.TimeStamp(kml.When(createdAtTime)),
+			kml.Name(venueName),
+			kml.Address(address),
+			kml.Point(kml.Coordinates(kml.Coordinate{Lon: venueLng, Lat: venueLat})),
+		),
+		)
+	}, "response", "checkins", "items")
 }
 
 func getPaginatedURI(limit int, offset int, accessToken string) string {

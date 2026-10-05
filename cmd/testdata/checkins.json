@@ -1,0 +1,39 @@
+{
+  "meta": {"code": 200},
+  "response": {
+    "checkins": {
+      "count": 2,
+      "items": [
+        {
+          "id": "1",
+          "createdAt": 1563177600,
+          "venue": {
+            "name": "Kauppatori",
+            "location": {
+              "address": "Eteläranta",
+              "city": "Helsinki",
+              "postalCode": "00170",
+              "state": "Uusimaa",
+              "country": "Finland",
+              "lat": 60.1675,
+              "lng": 24.9525
+            }
+          }
+        },
+        {
+          "id": "2",
+          "createdAt": 1563264000,
+          "venue": {
+            "name": "Café \"Ekberg\" & Co",
+            "location": {
+              "city": "Helsinki",
+              "country": "Finland",
+              "lat": 60.163,
+              "lng": 24.9388
+            }
+          }
+        }
+      ]
+    }
+  }
+}
