@@ -112,36 +112,42 @@ func getCheckins(pageSize int, offset int, accessToken string, kDoc *kml.Documen
 		body, err := io.ReadAll(resp.Body)
 		check(err)
 
-		jsonparser.ArrayEach(body, func(value []byte, dataType jsonparser.ValueType, offset int, err error) {
-			check(err)
-			createdAtEpoch, err := jsonparser.GetInt(value, "createdAt")
-			createdAtTime := time.Unix(createdAtEpoch, 0)
-			checkinVenue, dataType, offset, err := jsonparser.Get(value, "venue")
-			venueName, err := jsonparser.GetString(checkinVenue, "name")
-			checkinVenueLocation, dataType, offset, err := jsonparser.Get(checkinVenue, "location")
-			venueAddress, err := jsonparser.GetString(checkinVenueLocation, "address")
-			venueCity, err := jsonparser.GetString(checkinVenueLocation, "city")
-			venuePostCode, err := jsonparser.GetString(checkinVenueLocation, "postalCode")
-			venueState, err := jsonparser.GetString(checkinVenueLocation, "state")
-			venueCountry, err := jsonparser.GetString(checkinVenueLocation, "country")
-
-			addressLines := []string{venueAddress, venueCity, venuePostCode, venueState, venueCountry}
-			address := strings.Join(addressLines, ", ")
-			venueLat, err := jsonparser.GetFloat(checkinVenueLocation, "lat")
-			venueLng, err := jsonparser.GetFloat(checkinVenueLocation, "lng")
-			kDoc.Add(kml.Placemark(
-				kml.TimeStamp(kml.When(createdAtTime)),
-				kml.Name(venueName),
-				kml.Address(address),
-				kml.Point(kml.Coordinates(kml.Coordinate{Lon: venueLng, Lat: venueLat})),
-			),
-			)
-		}, "response", "checkins", "items")
+		addCheckins(body, kDoc)
 
 		defer resp.Body.Close()
 	} else {
 		fmt.Printf("HTTP Status %d", resp.StatusCode)
 	}
+}
+
+// addCheckins parses a page of check-ins from the API response body and adds
+// each one to kDoc as a placemark.
+func addCheckins(body []byte, kDoc *kml.DocumentElement) {
+	jsonparser.ArrayEach(body, func(value []byte, dataType jsonparser.ValueType, offset int, err error) {
+		check(err)
+		createdAtEpoch, err := jsonparser.GetInt(value, "createdAt")
+		createdAtTime := time.Unix(createdAtEpoch, 0)
+		checkinVenue, dataType, offset, err := jsonparser.Get(value, "venue")
+		venueName, err := jsonparser.GetString(checkinVenue, "name")
+		checkinVenueLocation, dataType, offset, err := jsonparser.Get(checkinVenue, "location")
+		venueAddress, err := jsonparser.GetString(checkinVenueLocation, "address")
+		venueCity, err := jsonparser.GetString(checkinVenueLocation, "city")
+		venuePostCode, err := jsonparser.GetString(checkinVenueLocation, "postalCode")
+		venueState, err := jsonparser.GetString(checkinVenueLocation, "state")
+		venueCountry, err := jsonparser.GetString(checkinVenueLocation, "country")
+
+		addressLines := []string{venueAddress, venueCity, venuePostCode, venueState, venueCountry}
+		address := strings.Join(addressLines, ", ")
+		venueLat, err := jsonparser.GetFloat(checkinVenueLocation, "lat")
+		venueLng, err := jsonparser.GetFloat(checkinVenueLocation, "lng")
+		kDoc.Add(kml.Placemark(
+			kml.TimeStamp(kml.When(createdAtTime)),
+			kml.Name(venueName),
+			kml.Address(address),
+			kml.Point(kml.Coordinates(kml.Coordinate{Lon: venueLng, Lat: venueLat})),
+		),
+		)
+	}, "response", "checkins", "items")
 }
 
 func getPaginatedURI(limit int, offset int, accessToken string) string {
